@@ -1,14 +1,26 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 export default function WhatsAppButton({ phoneNumber = "+5493435342578", message = "Hola, estoy interesado en sus servicios." }) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const openWhatsApp = () => {
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-    window.open(whatsappUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      window.open(whatsappUrl, '_blank');
+    }
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <button

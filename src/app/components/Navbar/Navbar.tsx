@@ -19,7 +19,6 @@ const textShadowClass = "drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]"
 const Logo = () => (
   <motion.div
     whileHover={{ scale: 1.05 }}
-    // whileTap={{ scale: 0.95 }}
     transition={{ duration: 0.3 }}
     className={`relative w-40 h-20 md:w-56 md:h-24 ${textShadowClass}`}
   >
@@ -52,8 +51,10 @@ const SocialIcon = ({ href, label, children }: { href: string, label: string, ch
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
     }
@@ -70,6 +71,10 @@ export default function Navbar() {
       }
     }
     setIsOpen(false)
+  }
+
+  if (!isMounted) {
+    return null
   }
 
   return (

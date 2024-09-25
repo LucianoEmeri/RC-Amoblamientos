@@ -1,7 +1,25 @@
 'use client'
 
-import React from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import React, { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
+
+const MapContainer = dynamic(
+  () => import('react-leaflet').then((mod) => mod.MapContainer),
+  { ssr: false }
+)
+const TileLayer = dynamic(
+  () => import('react-leaflet').then((mod) => mod.TileLayer),
+  { ssr: false }
+)
+const Marker = dynamic(
+  () => import('react-leaflet').then((mod) => mod.Marker),
+  { ssr: false }
+)
+const Popup = dynamic(
+  () => import('react-leaflet').then((mod) => mod.Popup),
+  { ssr: false }
+)
+
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 
@@ -15,8 +33,6 @@ const DefaultIcon = L.icon({
   iconSize: [25, 41],
   iconAnchor: [12, 41]
 })
-
-L.Marker.prototype.options.icon = DefaultIcon
 
 const locations = [
   {
@@ -32,6 +48,21 @@ const locations = [
 const center: [number, number] = [-31.7333, -60.5167] // Approximate center between the two locations
 
 export default function LocationMap() {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+    L.Marker.prototype.options.icon = DefaultIcon
+  }, [])
+
+  if (!isMounted) {
+    return (
+      <div className="w-full h-80 bg-gray-200 flex items-center justify-center">
+        <p className="text-gray-500">Cargando mapa...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full h-80 relative z-10">
       <MapContainer center={center} zoom={9} style={{ height: '100%', width: '100%' }} className="z-10">

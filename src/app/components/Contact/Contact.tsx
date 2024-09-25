@@ -3,8 +3,13 @@
 import React, { useState, useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { ArrowRightCircle } from 'lucide-react'
-import LocationMap from '../Location/LocationMap'
+import dynamic from 'next/dynamic'
 import Swal from 'sweetalert2'
+
+const LocationMap = dynamic(() => import('../Location/LocationMap'), { 
+  ssr: false,
+  loading: () => <div className="w-full h-64 bg-gray-200 animate-pulse"></div>
+})
 
 interface FormDetails {
   name: string

@@ -24,8 +24,8 @@ async function fetchInstagramPosts(): Promise<InstagramPost[]> {
 export default function InstagramGallery() {
   const [posts, setPosts] = useState<InstagramPost[]>([])
   const [visiblePosts, setVisiblePosts] = useState<InstagramPost[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+//   const [loading, setLoading] = useState(true)
+//   const [error, setError] = useState<string | null>(null)
   const textShadowClass = "drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]"
 
   useEffect(() => {
@@ -35,10 +35,10 @@ export default function InstagramGallery() {
         setPosts(fetchedPosts)
         setVisiblePosts(fetchedPosts.slice(0, 8))
       } catch (err) {
-        setError('Error al cargar las imágenes de Instagram')
+        // setError('Error al cargar las imágenes de Instagram')
         console.error(err)
       } finally {
-        setLoading(false)
+        // setLoading(false)
       }
     }
 
@@ -51,8 +51,8 @@ export default function InstagramGallery() {
     setVisiblePosts([...visiblePosts, ...newPosts])
   }
 
-  if (loading) return <div className="text-center py-8 text-white">Cargando...</div>
-  if (error) return <div className="text-center py-8 text-white">{error}</div>
+//   if (loading) return <div className="text-center py-8 text-white">Cargando...</div>
+//   if (error) return <div className="text-center py-8 text-white">{error}</div>
 
   return (
     <div id="news" className="relative bg-cover bg-center bg-no-repeat py-16" style={{ backgroundImage: "url('/assets/pxfuel.com.jpg')" }}>
