@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import SponsorCarouselBlack from '../components/Sponsor/sponsor-carousel-black'
+// import SponsorCarouselBlack from '../components/Sponsor/sponsor-carousel-black'
 
 type Category = 'Todos' | 'Mármol' | 'Granito' | 'Cuarcita' | 'Marmetas' | 'Dekton' | 'Marmotech' | 'Silestone'
 
@@ -89,7 +89,7 @@ export default function Catalog() {
             ))}
           </div>
         </div>
-        <SponsorCarouselBlack/>
+        {/* <SponsorCarouselBlack/> */}
       </div>
     </div>
   )

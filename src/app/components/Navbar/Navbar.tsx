@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronRight } from 'lucide-react'
 
 const navItems = [
-  { name: 'INICIO', href: '/' },
+  { name: 'INICIO', href: '/#' },
   { name: 'NOSOTROS', href: '/#about' },
   { name: 'NOVEDADES', href: '/#news' },
   { name: 'CONTACTO', href: '/#contact' },
@@ -63,14 +63,30 @@ export default function Navbar() {
   }, [])
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
-      e.preventDefault()
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
+    e.preventDefault()
     setIsOpen(false)
+
+    const targetId = href.replace(/.*\#/, '')
+    const element = document.getElementById(targetId)
+    const navbarHeight = 96 // Altura aproximada del navbar en píxeles
+
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      })
+    } else if (href === '/') {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    } else {
+      // Si el href no es un ancla, navega normalmente
+      window.location.href = href
+    }
   }
 
   if (!isMounted) {
@@ -89,7 +105,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
           <div className="flex-shrink-0">
-            <Link href="/" className="flex-shrink-0">
+            <Link href="/" className="flex-shrink-0" onClick={(e) => handleNavClick(e, '/')}>
               <Logo />
             </Link>
           </div>

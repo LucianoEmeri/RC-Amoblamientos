@@ -2,30 +2,24 @@
 
 import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-
-const MapContainer = dynamic(
-  () => import('react-leaflet').then((mod) => mod.MapContainer),
-  { ssr: false }
-)
-const TileLayer = dynamic(
-  () => import('react-leaflet').then((mod) => mod.TileLayer),
-  { ssr: false }
-)
-const Marker = dynamic(
-  () => import('react-leaflet').then((mod) => mod.Marker),
-  { ssr: false }
-)
-const Popup = dynamic(
-  () => import('react-leaflet').then((mod) => mod.Popup),
-  { ssr: false }
-)
-
+import { TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
+import { Loader2 } from 'lucide-react'
 
 // Fix for default marker icon
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
+
+const DynamicMap = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-80 bg-gray-200 flex items-center justify-center">
+      <Loader2 className="w-8 h-8 text-gray-500 animate-spin" />
+      <span className="sr-only">Cargando mapa...</span>
+    </div>
+  ),
+})
 
 const DefaultIcon = L.icon({
   iconUrl: icon.src,
@@ -37,15 +31,17 @@ const DefaultIcon = L.icon({
 const locations = [
   {
     name: "RC Amoblamientos Cerrito",
-    position: [-31.5833, -60.0667] as [number, number]
+    position: [-31.5833333, -60.0666667] as [number, number],
+    address: "Jujuy 185, Cerrito, Entre Ríos"
   },
   {
     name: "RC Amoblamientos Paraná",
-    position: [-31.7333, -60.5167] as [number, number]
+    position: [-31.7333333, -60.5166667] as [number, number],
+    address: "Av. Francisco Ramírez 1600, Paraná, Entre Ríos"
   }
 ]
 
-const center: [number, number] = [-31.7333, -60.5167] // Approximate center between the two locations
+const center: [number, number] = [-31.6583333, -60.2916667] // Calculated center between the two locations
 
 export default function LocationMap() {
   const [isMounted, setIsMounted] = useState(false)
@@ -56,26 +52,30 @@ export default function LocationMap() {
   }, [])
 
   if (!isMounted) {
-    return (
-      <div className="w-full h-80 bg-gray-200 flex items-center justify-center">
-        <p className="text-gray-500">Cargando mapa...</p>
-      </div>
-    )
+    return null
   }
 
   return (
-    <div className="w-full h-80 relative z-10">
-      <MapContainer center={center} zoom={9} style={{ height: '100%', width: '100%' }} className="z-10">
+    <div className="w-full h-80 relative z-10 rounded-lg overflow-hidden shadow-lg">
+      <DynamicMap center={center} zoom={8} className="w-full h-full">
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {locations.map((location, index) => (
           <Marker key={index} position={location.position}>
-            <Popup>{location.name}</Popup>
+            <Popup>
+              <div className="text-center">
+                <h3 className="font-bold text-lg mb-2">{location.name}</h3>
+                <p className="text-sm mb-2">{location.address}</p>
+                <p className="text-xs">
+                  Lat: {location.position[0].toFixed(6)}, Lon: {location.position[1].toFixed(6)}
+                </p>
+              </div>
+            </Popup>
           </Marker>
         ))}
-      </MapContainer>
+      </DynamicMap>
     </div>
   )
 }

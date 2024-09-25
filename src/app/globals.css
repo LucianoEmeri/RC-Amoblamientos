@@ -45,3 +45,37 @@
   background-color: rgb(123, 123, 123); 
   border-radius: 10px;
 }
+
+/* Estilos para la selección */
+::selection {
+  background-color: white;
+  color: black;
+}
+
+/* Estilos para las Alertas */
+
+.swal2-popup {
+  background: rgba(0, 0, 0, 0.86) !important;
+  border-radius: 10px;
+}
+
+.swal2-title {
+  color: #ffffff !important;
+}
+
+.swal2-html-container {
+  color: #f1f1f1 !important;
+}
+
+.swal2-confirm {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.swal2-popup.swal2-show {
+  animation: fadeInDown 0.3s;
+}
+
+.swal2-popup.swal2-hide {
+  animation: fadeOutUp 0.3s;
+}
