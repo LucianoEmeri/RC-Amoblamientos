@@ -3,6 +3,7 @@ import { Rubik } from 'next/font/google';
 import "./globals.css";
 import Navbar from './components/Navbar/Navbar';
 import { Footer } from "./components/Footer/Footer";
+import WhatsAppButton from './components/Contact/whatsapp-button';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -31,6 +32,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <WhatsAppButton phoneNumber="+5493435342578" message="Hola, estoy interesado en sus servicios." />
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ const sponsors: Sponsor[] = [
   { name: 'Marmotech', image: '/assets/Marmotech.png' },
 ]
 
-export default function SponsorCarousel() {
+export default function SponsorCarouselBlack() {
   const [scrollX, setScrollX] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const [containerWidth, setContainerWidth] = useState(0)

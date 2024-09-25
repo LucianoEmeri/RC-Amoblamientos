@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import SponsorCarousel from '../components/Sponsor/sponsor-carousel'
+import SponsorCarouselBlack from '../components/Sponsor/sponsor-carousel-black'
 
 type Category = 'Todos' | 'Mármol' | 'Granito' | 'Cuarcita' | 'Marmetas' | 'Dekton' | 'Marmotech' | 'Silestone'
 
@@ -43,9 +43,9 @@ export default function Catalog() {
         quality={100}
         priority
       />
-      <div className="relative z-10 pt-16 min-h-screen bg-black bg-opacity-50">
+      <div className="relative z-10 pt-20 min-h-screen bg-black bg-opacity-50">
         <div className="max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-4xl font-semibold text-center mb-6 text-white">CATÁLOGO</h1>
+          <h1 className="text-5xl font-light text-center mb-6 text-white">CATÁLOGO</h1>
           <p className="text-center mb-8 text-gray-200">
             Recorré nuestro catálogo y disfruta de la amplia gama de productos que tenemos disponibles.
           </p>
@@ -89,7 +89,7 @@ export default function Catalog() {
             ))}
           </div>
         </div>
-        <SponsorCarousel/>
+        <SponsorCarouselBlack/>
       </div>
     </div>
   )

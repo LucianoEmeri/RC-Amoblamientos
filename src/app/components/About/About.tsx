@@ -231,7 +231,7 @@ export default function About() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="container mx-auto px-4 relative z-10"
       >
-        <h2 className="text-5xl font-semibold text-center mb-16 tracking-tight">SOBRE NOSOTROS</h2>
+        <h2 className="text-5xl font-normal text-center mb-16 tracking-tight">SOBRE NOSOTROS</h2>
         <div className="flex flex-col lg:flex-row items-stretch gap-8">
           {renderSection('amoblamientos')}
           {renderSection('stone')}

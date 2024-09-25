@@ -31,8 +31,8 @@ const ShowCarousel = () => {
           id: 2, 
           image: Image2.src, 
           href: "/mesadas", 
-          description1: "Mesadas elegantes y duraderas.", 
-          description2: "Encuentra la combinación perfecta de estilo y resistencia.", 
+          description1: "Elegancia y resistencia en cada detalle.",
+          description2: "Descubre el equilibrio ideal entre diseño y durabilidad.",
           title: "Mesadas" 
         },
         

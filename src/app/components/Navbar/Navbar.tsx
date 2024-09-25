@@ -8,9 +8,9 @@ import { Menu, X, ChevronRight } from 'lucide-react'
 
 const navItems = [
   { name: 'INICIO', href: '/' },
-  { name: 'NOSOTROS', href: '#about' },
-  { name: 'NOVEDADES', href: '#news' },
-  { name: 'CONTACTO', href: '#contact' },
+  { name: 'NOSOTROS', href: '/#about' },
+  { name: 'NOVEDADES', href: '/#news' },
+  { name: 'CONTACTO', href: '/#contact' },
   { name: 'RC STONE', href: '/rcstone' },
 ]
 
@@ -19,7 +19,7 @@ const textShadowClass = "drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]"
 const Logo = () => (
   <motion.div
     whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
+    // whileTap={{ scale: 0.95 }}
     transition={{ duration: 0.3 }}
     className={`relative w-40 h-20 md:w-56 md:h-24 ${textShadowClass}`}
   >
@@ -69,6 +69,7 @@ export default function Navbar() {
         element.scrollIntoView({ behavior: 'smooth' })
       }
     }
+    setIsOpen(false)
   }
 
   return (
@@ -184,10 +185,7 @@ export default function Navbar() {
                 >
                   <Link 
                     href={item.href}
-                    onClick={(e) => {
-                      handleNavClick(e, item.href)
-                      setIsOpen(false)
-                    }}
+                    onClick={(e) => handleNavClick(e, item.href)}
                   >
                     <motion.div
                       className={`block px-3 py-2 rounded-md text-base text-white hover:text-white transition-all duration-300 ${textShadowClass}`}
