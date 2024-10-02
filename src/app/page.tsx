@@ -1,6 +1,5 @@
 import React from 'react'
 import ShowCarousel from './components/ShowCarousel/ShowCarousel'
-import Navbar from './components/Navbar/Navbar'
 import About from './components/About/About'
 import Video from './components/Sponsor/video'
 import InstagramGallery from './components/Instagram/instagram-gallery'
@@ -11,7 +10,6 @@ import Contact from './components/Contact/Contact'
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <Navbar />
       <ShowCarousel />
       <About />
       {/* <SponsorCarouselBlack/> */}

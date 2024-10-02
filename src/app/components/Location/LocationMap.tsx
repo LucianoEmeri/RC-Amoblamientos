@@ -7,7 +7,6 @@ import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { Loader2 } from 'lucide-react'
 
-// Fix for default marker icon
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
@@ -31,17 +30,20 @@ const DefaultIcon = L.icon({
 const locations = [
   {
     name: "RC Amoblamientos Cerrito",
-    position: [-31.5833333, -60.0666667] as [number, number],
+    position: [-31.581844376805705, -60.07839924007683] as [number, number],
     address: "Jujuy 185, Cerrito, Entre Ríos"
   },
   {
     name: "RC Amoblamientos Paraná",
-    position: [-31.7333333, -60.5166667] as [number, number],
+    position: [-31.73216347817546, -60.51612112229742] as [number, number],
     address: "Av. Francisco Ramírez 1600, Paraná, Entre Ríos"
   }
 ]
 
-const center: [number, number] = [-31.6583333, -60.2916667] // Calculated center between the two locations
+const center: [number, number] = [
+  (locations[0].position[0] + locations[1].position[0]) / 2,
+  (locations[0].position[1] + locations[1].position[1]) / 2
+]
 
 export default function LocationMap() {
   const [isMounted, setIsMounted] = useState(false)
@@ -57,7 +59,7 @@ export default function LocationMap() {
 
   return (
     <div className="w-full h-80 relative z-10 rounded-lg overflow-hidden shadow-lg">
-      <DynamicMap center={center} zoom={8} className="w-full h-full">
+      <DynamicMap center={center} zoom={9} className="w-full h-full">
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
