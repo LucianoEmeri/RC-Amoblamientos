@@ -50,7 +50,7 @@ export default function Video() {
   useEffect(() => {
     const handleResize = () => {
       if (containerRef.current) {
-        containerRef.current.style.height = `${window.innerHeight * 0.8}px`
+        containerRef.current.style.height = `${window.innerHeight * 0.6}px` // Changed from 0.8 to 0.6
       }
     }
 

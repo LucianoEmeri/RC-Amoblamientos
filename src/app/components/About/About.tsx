@@ -6,18 +6,24 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRightIcon, XIcon } from 'lucide-react'
 
 const images = {
-  amoblamientos: [
-    '/assets/showroom.jpg',
-    '/assets/showroom.jpg',
-    '/assets/showroom.jpg',
-    '/assets/showroom.jpg',
-  ],
-  stone: [
-    '/assets/mesada2.jpg',
-    '/assets/mesada2.jpg',
-    '/assets/mesada2.jpg',
-    '/assets/mesada2.jpg',
-  ],
+  amoblamientos: {
+    main: '/assets/showroom.jpg',
+    additional: [
+      '/assets/cocina4.jpg',
+      '/assets/cocina2.jpg',
+      '/assets/cocina3.jpg',
+      '/assets/amob1.jpg',
+    ],
+  },
+  stone: {
+    main: '/assets/mesada2.jpg',
+    additional: [
+      '/assets/mesada3.jpg',
+      '/assets/mesada6.jpg',
+      '/assets/mesada5.jpg',
+      '/assets/mesada4.jpg',
+    ],
+  },
 }
 
 const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: React.ReactNode }) => {
@@ -50,7 +56,7 @@ const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => 
             type="button"
             onClick={onClose}
             className="absolute top-2 right-2 text-white opacity-70 p-2"
-            aria-label="Close modal"
+            aria-label="Cerrar modal"
           >
             <XIcon size={30} />
           </button>
@@ -122,11 +128,10 @@ export default function About() {
 
     return (
       <motion.div
-        className="lg:w-1/2 bg-black bg-opacity-60 rounded-xl shadow-2xl overflow-hidden cursor-pointer relative group"
+        className="w-full lg:w-1/2 bg-black bg-opacity-60 rounded-xl shadow-2xl overflow-hidden cursor-pointer relative group"
         onClick={() => handleSectionClick(section)}
         whileHover={{ scale: isMobile ? 1 : 1.02 }}
         transition={{ duration: 0.3 }}
-        style={{ height: '650px' }}
       >
         <AnimatePresence mode="wait">
           {!isActive ? (
@@ -136,32 +141,32 @@ export default function About() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="h-full relative"
+              className="relative aspect-[3/4] sm:aspect-[4/5] md:aspect-[16/9] lg:aspect-auto lg:h-full"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70 z-10" />
               <Image
-                src={images[section][0]}
+                src={images[section].main}
                 alt={title}
                 layout="fill"
                 objectFit="cover"
                 className={`transition-all duration-300 transform ${isMobile ? '' : 'group-hover:scale-110'}`}
               />
-              <div className="absolute inset-x-0 bottom-0 z-20 p-6">
+              <div className="absolute inset-x-0 bottom-0 z-20 p-4 sm:p-6">
                 <motion.div
                   initial={{ y: 0 }}
                   animate={{ y: 0 }}
                   whileHover={{ y: 0 }}
-                  className={`space-y-4 transition-all duration-300 ${isMobile ? '' : 'group-hover:-translate-y-20'}`}
+                  className={`space-y-2 sm:space-y-4 transition-all duration-300 ${isMobile ? '' : 'group-hover:-translate-y-20'}`}
                 >
-                  <h3 className="text-3xl font-semibold text-white">
+                  <h3 className="text-2xl sm:text-3xl font-semibold text-white">
                     {title}
                   </h3>
-                  <p className={`text-gray-300 text-lg leading-relaxed ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300`}>
+                  <p className={`text-gray-300 text-base sm:text-lg leading-relaxed ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300`}>
                     {description}
                   </p>
                 </motion.div>
-                <div className="flex items-center text-white mt-4">
-                  <span className="mr-2">Ver más</span>
+                <div className="flex items-center text-white mt-2 sm:mt-4">
+                  <span className="mr-2 text-sm sm:text-base">Ver más</span>
                   <ChevronRightIcon size={20} />
                 </div>
               </div>
@@ -173,10 +178,10 @@ export default function About() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="p-6 h-full flex flex-col bg-transparent"
+              className="p-4 sm:p-6 flex flex-col bg-transparent h-full"
             >
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-2xl sm:text-3xl font-semibold text-white pr-8">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white pr-8">
                   {title}
                 </h3>
                 <button
@@ -190,19 +195,19 @@ export default function About() {
                   <XIcon size={24} />
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-4 mb-6 flex-grow">
-                {images[section].map((src, index) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 sm:mb-6">
+                {images[section].additional.map((src, index) => (
                   <motion.div
                     key={src}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.1 }}
-                    className="relative aspect-video rounded-lg overflow-hidden shadow-lg"
+                    className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg"
                     onClick={(e) => handleImageClick(e, src)}
                   >
                     <Image
                       src={src}
-                      alt={`${title} image ${index + 1}`}
+                      alt={`${title} imagen ${index + 1}`}
                       layout="fill"
                       objectFit="cover"
                       className="transition-transform duration-300 hover:scale-110"
@@ -210,9 +215,11 @@ export default function About() {
                   </motion.div>
                 ))}
               </div>
-              <p className="text-gray-300 text-lg leading-relaxed mt-auto">
-                {fullDescription}
-              </p>
+              <div className="mt-auto">
+                <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
+                  {fullDescription}
+                </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -224,12 +231,12 @@ export default function About() {
     <section
       id="about"
       ref={aboutRef}
-      className="relative py-24 bg-transparent text-white overflow-hidden min-h-screen flex items-center"
+      className="relative py-12 sm:py-16 bg-transparent text-white overflow-hidden min-h-screen flex items-center"
     >
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/marquina.jpeg"
-          alt="Background"
+          src="/assets/background1.jpeg"
+          alt="Fondo"
           layout="fill"
           objectFit="cover"
           quality={100}
@@ -242,8 +249,8 @@ export default function About() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="container mx-auto px-4 relative z-10"
       >
-        <h2 className="text-5xl font-normal text-center mb-16 tracking-tight">SOBRE NOSOTROS</h2>
-        <div className="flex flex-col lg:flex-row items-stretch gap-8">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-normal text-center mb-8 sm:mb-16 tracking-tight">SOBRE NOSOTROS</h2>
+        <div className="flex flex-col lg:flex-row items-stretch gap-8 lg:h-[750px]">
           {renderSection('amoblamientos')}
           {renderSection('stone')}
         </div>

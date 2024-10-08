@@ -58,7 +58,7 @@ export default function InstagramGallery() {
   return (
     <div id="news" className="relative py-16">
       <Image
-        src="/assets/pxfuel.com.jpg"
+        src="/assets/background2.jpg"
         alt="Background"
         layout="fill"
         objectFit="cover"

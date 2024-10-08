@@ -71,22 +71,22 @@ export default function Carousel({ images }: ICarouselProps) {
   return (
     <div
       id="default-carousel"
-      className="relative w-full"
+      className="relative w-full overflow-hidden"
       data-carousel="slide">
-      <div className="relative h-[50vh] md:h-[70vh] overflow-hidden">
+      <div className="relative h-[50vh] md:h-[70vh]">
         {images.map((img, index) => (
           <div
             key={index}
-            className={`absolute w-full h-full transition-opacity duration-700 ease-in-out ${
-              index === activeIndex ? 'opacity-100 z-40' : 'opacity-0'
+            className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${
+              index === activeIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
             }`}
             data-carousel-item>
             <Image
               src={img.image}
               className="absolute block w-full h-full object-cover"
               alt={`Slide ${index + 1}`}
-              width={1920}
-              height={1080}
+              layout="fill"
+              objectFit="cover"
               quality={100}
               priority={index === 0}
             />
@@ -94,7 +94,7 @@ export default function Carousel({ images }: ICarouselProps) {
             <AnimatePresence mode="wait">
               {index === activeIndex && (
                 <motion.div
-                  className="absolute inset-y-0 left-0 flex flex-col justify-center text-white p-6 md:p-12 w-full md:w-2/3 lg:w-1/2"
+                  className="absolute inset-y-0 left-0 flex flex-col justify-center text-white p-4 sm:p-6 md:p-12 w-full md:w-2/3 lg:w-1/2"
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
@@ -102,19 +102,19 @@ export default function Carousel({ images }: ICarouselProps) {
                   key={index}
                 >
                   <motion.p 
-                    className={`font-bold text-xs md:text-sm uppercase ${textShadowClass}`}
+                    className={`font-bold text-xs sm:text-sm uppercase ${textShadowClass}`}
                     variants={itemVariants}
                   >
                     {img.title}
                   </motion.p>
                   <motion.p 
-                    className={`text-2xl md:text-4xl font-bold mt-2 ${textShadowClass}`}
+                    className={`text-xl sm:text-2xl md:text-4xl font-bold mt-2 ${textShadowClass}`}
                     variants={itemVariants}
                   >
                     {img.description1}
                   </motion.p>
                   <motion.p 
-                    className={`text-xl md:text-3xl mt-2 leading-none ${textShadowClass}`}
+                    className={`text-lg sm:text-xl md:text-3xl mt-2 leading-none ${textShadowClass}`}
                     variants={itemVariants}
                   >
                     {img.description2}
@@ -125,7 +125,7 @@ export default function Carousel({ images }: ICarouselProps) {
           </div>
         ))}
       </div>
-      <div className="absolute z-40 flex justify-center space-x-2 -translate-x-1/2 bottom-5 left-1/2">
+      <div className="absolute z-20 flex justify-center space-x-2 -translate-x-1/2 bottom-5 left-1/2">
         {images.map((image, index) => (
           <button
             key={image.id}
@@ -142,7 +142,7 @@ export default function Carousel({ images }: ICarouselProps) {
       </div>
       <button
         type="button"
-        className="absolute left-4 bottom-5 z-40 flex items-center justify-center w-10 h-10 focus:outline-none"
+        className="absolute left-4 bottom-5 z-20 flex items-center justify-center w-10 h-10 focus:outline-none"
         data-carousel-prev
         onClick={handlePrevClick}
         aria-label="Previous slide"
@@ -165,7 +165,7 @@ export default function Carousel({ images }: ICarouselProps) {
       </button>
       <button
         type="button"
-        className="absolute right-4 bottom-5 z-40 flex items-center justify-center w-10 h-10 focus:outline-none"
+        className="absolute right-4 bottom-5 z-20 flex items-center justify-center w-10 h-10 focus:outline-none"
         data-carousel-next
         onClick={handleNextClick}
         aria-label="Next slide"

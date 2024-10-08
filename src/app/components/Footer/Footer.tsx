@@ -1,22 +1,43 @@
 'use client';
 import { FC } from "react";
+import Link from 'next/link';
 
 const SITEMAP = [
   {
     title: "Empresa",
-    links: ["Acerca de Nosotros", "Carreras", "Nuestro Equipo", "Proyectos"],
+    links: [
+      { name: "Acerca de Nosotros", href: "#about" },
+      // { name: "Carreras", href: "#" },
+      { name: "Proyectos", href: "#news" },
+      { name: "Contáctanos", href: "#contact" },
+    ],
   },
   {
     title: "Centro de Ayuda",
-    links: ["Atención al cliente", "Postventa", "Devoluciones", "Contáctanos"],
+    links: [
+      { name: "Atención al cliente", href: "#" },
+      { name: "Postventa", href: "#" },
+      { name: "Devoluciones", href: "#" },
+
+    ],
   },
   {
     title: "Recursos",
-    links: ["Blog", "Boletín", "Trabajo", "Programa de Afiliados"],
+    links: [
+      // { name: "Blog", href: "#" },
+      // { name: "Boletín", href: "#" },
+      { name: "Nuestro Equipo", href: "#" },
+      { name: "Trabajo", href: "#" },
+
+    ],
   },
   {
     title: "Productos",
-    links: ["Cocinas", "Mesadas", "Vestidores", "Placares"],
+    links: [
+      { name: "Amoblamientos", href: "#" },
+      { name: "Marmolería", href: "/rcstone" },
+      // { name: "Vestidores", href: "#" },
+    ],
   },
 ];
 
@@ -29,18 +50,18 @@ export const Footer: FC = () => {
         <div className="mx-auto grid w-full grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
           {SITEMAP.map(({ title, links }, index) => (
             <div key={index} className="w-full">
-              <h6 className="mb-4 font-semibold uppercase text-white">
+              <h2 className="mb-4 text-base font-semibold uppercase text-white">
                 {title}
-              </h6>
+              </h2>
               <ul className="space-y-1">
                 {links.map((link, index) => (
                   <li key={index}>
-                    <a
-                      href="#"
+                    <Link
+                      href={link.href}
                       className="inline-block py-1 pr-2 text-blue-gray-300 transition-transform hover:scale-105"
                     >
-                      {link}
-                    </a>
+                      {link.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -49,11 +70,17 @@ export const Footer: FC = () => {
         </div>
         <div className="flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
           <p className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0">
-          <a href="#">RC Amoblamientos</a> &copy; {currentYear}  Todos
+            <Link href="/">RC Amoblamientos</Link> &copy; {currentYear} Todos
             los Derechos Reservados.
           </p>
           <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
-            <a href="https://www.facebook.com/Rc.amoblamientos/" target="_blank" rel="noopener noreferrer" className="opacity-80 transition-opacity hover:opacity-100">
+            <a 
+              href="https://www.facebook.com/Rc.amoblamientos/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="opacity-80 transition-opacity hover:opacity-100"
+              aria-label="Visita nuestra página de Facebook"
+            >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fillRule="evenodd"
@@ -62,7 +89,13 @@ export const Footer: FC = () => {
                 />
               </svg>
             </a>
-            <a href="https://www.instagram.com/rc_amoblamientos/" target="_blank" rel="noopener noreferrer" className="opacity-80 transition-opacity hover:opacity-100">
+            <a 
+              href="https://www.instagram.com/rc_amoblamientos/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="opacity-80 transition-opacity hover:opacity-100"
+              aria-label="Visita nuestro perfil de Instagram"
+            >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fillRule="evenodd"
