@@ -24,6 +24,7 @@ async function fetchInstagramPosts(): Promise<InstagramPost[]> {
 export default function InstagramGallery() {
   const [posts, setPosts] = useState<InstagramPost[]>([])
   const [visiblePosts, setVisiblePosts] = useState<InstagramPost[]>([])
+  const [isSmallMobile, setIsSmallMobile] = useState(true)
   const textShadowClass = "drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]"
 
   useEffect(() => {
@@ -31,18 +32,26 @@ export default function InstagramGallery() {
       try {
         const fetchedPosts = await fetchInstagramPosts()
         setPosts(fetchedPosts)
-        setVisiblePosts(fetchedPosts.slice(0, 8))
+        setVisiblePosts(fetchedPosts.slice(0, isSmallMobile ? 4 : 8))
       } catch (err) {
         console.error(err)
       }
     }
 
+    const handleResize = () => {
+      setIsSmallMobile(window.innerWidth < 640)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
     loadPosts()
-  }, [])
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [isSmallMobile])
 
   const loadMorePosts = () => {
     const currentLength = visiblePosts.length
-    const newPosts = posts.slice(currentLength, currentLength + 8)
+    const newPosts = posts.slice(currentLength, currentLength + (isSmallMobile ? 4 : 8))
     setVisiblePosts([...visiblePosts, ...newPosts])
   }
 
@@ -58,8 +67,8 @@ export default function InstagramGallery() {
       />
       <div className="absolute inset-0"></div>
       <div className="relative container mx-auto px-4">
-        <h2 className={`text-5xl font-normal mb-16 text-center text-white ${textShadowClass}`}>NOVEDADES</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <h2 className={`text-4xl sm:text-5xl font-normal mb-8 sm:mb-16 text-center text-white ${textShadowClass}`}>NOVEDADES</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {visiblePosts.map((post) => (
             <div key={post.id} className="relative aspect-square overflow-hidden shadow-lg">
               <Image
@@ -74,21 +83,21 @@ export default function InstagramGallery() {
                 rel="noopener noreferrer"
                 className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300"
               >
-                <div className="text-white text-center p-2">
-                  <p className="text-sm">{post.caption ? `${post.caption.slice(0, 50)}...` : 'Ver en Instagram'}</p>
+                <div className="text-white text-center p-4">
+                  <p className="text-sm sm:text-base">{post.caption ? `${post.caption.slice(0, 100)}...` : 'Ver en Instagram'}</p>
                   {post.media_type === 'VIDEO' && <p className="text-xs mt-1">(Video)</p>}
                 </div>
               </a>
             </div>
           ))}
         </div>
-        <div className="flex justify-center mt-14 space-x-4">
+        <div className="flex flex-col sm:flex-row justify-center mt-8 sm:mt-14 space-y-4 sm:space-y-0 sm:space-x-4">
           {visiblePosts.length < posts.length && (
             <button
               onClick={loadMorePosts}
-              className="px-6 py-3 bg-white text-black border border-black rounded-full hover:bg-black hover:text-white transition-all duration-300 ease-in-out flex items-center shadow-md hover:shadow-lg"
+              className="px-4 sm:px-6 py-2 sm:py-3 bg-white text-black border border-black rounded-full hover:bg-black hover:text-white transition-all duration-300 ease-in-out flex items-center justify-center shadow-md hover:shadow-lg text-sm sm:text-base"
             >
-              <Plus className="w-5 h-5 mr-2" />
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Cargar más
             </button>
           )}
@@ -96,9 +105,9 @@ export default function InstagramGallery() {
             href="https://www.instagram.com/rc_amoblamientos"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 bg-white text-black border border-black rounded-full hover:bg-black hover:text-white transition-all duration-300 ease-in-out flex items-center shadow-md hover:shadow-lg"
+            className="px-4 sm:px-6 py-2 sm:py-3 bg-white text-black border border-black rounded-full hover:bg-black hover:text-white transition-all duration-300 ease-in-out flex items-center justify-center shadow-md hover:shadow-lg text-sm sm:text-base"
           >
-            <Instagram className="w-5 h-5 mr-2" />
+            <Instagram className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Síguenos en Instagram
           </a>
         </div>

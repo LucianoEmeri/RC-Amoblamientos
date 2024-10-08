@@ -21,7 +21,6 @@ const ShowCarousel = () => {
         { 
           id: 1, 
           image: Image3.src, 
-          href: "/cocinas", 
           description1: "Diseños modernos y funcionales.", 
           description2: "Crea la cocina de tus sueños con materiales de alta calidad.", 
           title: "Cocinas" 
@@ -30,7 +29,6 @@ const ShowCarousel = () => {
         { 
           id: 2, 
           image: Image2.src, 
-          href: "/mesadas", 
           description1: "Elegancia y resistencia en cada detalle.",
           description2: "Descubre el equilibrio ideal entre diseño y durabilidad.",
           title: "Mesadas" 
@@ -39,7 +37,6 @@ const ShowCarousel = () => {
         { 
           id: 3, 
           image: Image1.src, 
-          href: "/vestidores", 
           description1: "Espacios organizados y personalizados.", 
           description2: "Optimiza cada rincón con nuestros placares y vestidores a medida.", 
           title: "Placares / Vestidores" 

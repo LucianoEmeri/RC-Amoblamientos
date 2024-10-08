@@ -64,6 +64,7 @@ export default function About() {
   const [isVisible, setIsVisible] = useState(false)
   const [activeSection, setActiveSection] = useState<'amoblamientos' | 'stone' | null>(null)
   const [modalImage, setModalImage] = useState<string | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
   const aboutRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -85,10 +86,18 @@ export default function About() {
       observer.observe(currentRef)
     }
 
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+
     return () => {
       if (currentRef) {
         observer.unobserve(currentRef)
       }
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
@@ -115,7 +124,7 @@ export default function About() {
       <motion.div
         className="lg:w-1/2 bg-black bg-opacity-60 rounded-xl shadow-2xl overflow-hidden cursor-pointer relative group"
         onClick={() => handleSectionClick(section)}
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ scale: isMobile ? 1 : 1.02 }}
         transition={{ duration: 0.3 }}
         style={{ height: '650px' }}
       >
@@ -135,19 +144,19 @@ export default function About() {
                 alt={title}
                 layout="fill"
                 objectFit="cover"
-                className="transition-all duration-300 transform group-hover:scale-110"
+                className={`transition-all duration-300 transform ${isMobile ? '' : 'group-hover:scale-110'}`}
               />
               <div className="absolute inset-x-0 bottom-0 z-20 p-6">
                 <motion.div
                   initial={{ y: 0 }}
                   animate={{ y: 0 }}
                   whileHover={{ y: 0 }}
-                  className="space-y-4 transition-all duration-300 group-hover:-translate-y-20"
+                  className={`space-y-4 transition-all duration-300 ${isMobile ? '' : 'group-hover:-translate-y-20'}`}
                 >
                   <h3 className="text-3xl font-semibold text-white">
                     {title}
                   </h3>
-                  <p className="text-gray-300 text-lg leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className={`text-gray-300 text-lg leading-relaxed ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300`}>
                     {description}
                   </p>
                 </motion.div>
@@ -166,8 +175,10 @@ export default function About() {
               transition={{ duration: 0.3 }}
               className="p-6 h-full flex flex-col bg-transparent"
             >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-3xl font-semibold text-white">{title}</h3>
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-2xl sm:text-3xl font-semibold text-white pr-8">
+                  {title}
+                </h3>
                 <button
                   onClick={(e) => {
                     e.stopPropagation()

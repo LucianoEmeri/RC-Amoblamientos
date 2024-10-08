@@ -332,7 +332,7 @@ export const products: Product[] = [
   { id: 308, name: 'Dosificador Cubo', category: 'Accesorios', image: 'https://res.cloudinary.com/dhm3hgkzo/image/upload/v1727806093/Dosificador_Cubo_zwwzsa.jpg' },
   { id: 309, name: 'Dosificador Apido', category: 'Accesorios', image: 'https://res.cloudinary.com/dhm3hgkzo/image/upload/v1727806094/Dosificador_vd09m3.jpg' },
   { id: 310, name: 'Escurreplatos Curve Acero Inoxidable E37', category: 'Accesorios', image: 'https://res.cloudinary.com/dhm3hgkzo/image/upload/v1727806096/Escurreplatos_Curve_Acero_Inoxidable_xott78.jpg' },
-  { id: 311, name: '', category: 'Accesorios', image: 'https://res.cloudinary.com/dhm3hgkzo/image/upload/v1727806098/Escurreplatos_de_acero_Inox._E3_mnw0kg.jpg' },
+  { id: 311, name: 'Escurreplatos de acero Inox. E3', category: 'Accesorios', image: 'https://res.cloudinary.com/dhm3hgkzo/image/upload/v1727806098/Escurreplatos_de_acero_Inox._E3_mnw0kg.jpg' },
   { id: 312, name: 'Escurreplatos de acero Inox. E4', category: 'Accesorios', image: 'https://res.cloudinary.com/dhm3hgkzo/image/upload/v1727806099/Escurreplatos_de_acero_Inox._E4_sku7gg.jpg' },
   { id: 313, name: 'Escurreplatos de acero inox. Q37', category: 'Accesorios', image: 'https://res.cloudinary.com/dhm3hgkzo/image/upload/v1727806101/Escurreplatos_de_acero_inox._Q37_bwq0lu.jpg' },
   { id: 314, name: 'Escurreplatos de acero inox. Q40', category: 'Accesorios', image: 'https://res.cloudinary.com/dhm3hgkzo/image/upload/v1727806102/Escurreplatos_de_acero_inox._Q40_aqqdzc.jpg' },

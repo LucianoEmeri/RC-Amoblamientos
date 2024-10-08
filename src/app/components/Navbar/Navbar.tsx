@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronRight } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { Menu, X, ChevronRight, ChevronUp } from 'lucide-react'
+import { useRouter, usePathname } from 'next/navigation'
+import { useSwipeable } from 'react-swipeable'
 
 const navItems = [
   { name: 'INICIO', href: '/#' },
@@ -55,6 +56,8 @@ export default function Navbar() {
   const [atTop, setAtTop] = useState(true)
   const [isMounted, setIsMounted] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setIsMounted(true)
@@ -66,37 +69,57 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = async (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
     setIsOpen(false)
 
-    const targetId = href.replace(/.*\#/, '')
-    const element = document.getElementById(targetId)
-    const navbarHeight = 96 // Altura aproximada del navbar en píxeles
+    const isExternalPage = !href.startsWith('/#')
+    const isHomePage = pathname === '/'
 
-    if (element) {
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      })
-    } else if (href === '/') {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      })
-    } else {
-      // Si el href no es un ancla, navega normalmente
-      router.push(href)
+    if (isExternalPage) {
+      await router.push(href)
+      return
     }
+
+    const scrollToElement = (elementId: string) => {
+      const element = document.getElementById(elementId)
+      if (element) {
+        const navbarHeight = 80 
+        const elementPosition = element.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - navbarHeight
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        })
+      }
+    }
+
+    if (!isHomePage) {
+      await router.push('/')
+    }
+
+    setTimeout(() => {
+      if (href === '/#') {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        scrollToElement(href.replace('/#', ''))
+      }
+    }, 100)
   }
 
-  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogoClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
-    router.push('/')
+    setIsOpen(false)
+    await router.push('/')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  const swipeHandlers = useSwipeable({
+    onSwipedUp: () => setIsOpen(false),
+    trackMouse: true,
+    trackTouch: true
+  })
 
   if (!isMounted) {
     return null
@@ -106,7 +129,7 @@ export default function Navbar() {
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         atTop ? 'lg:bg-transparent' : 'bg-black/90 backdrop-blur-md'
-      } ${scrolled ? 'shadow-lg' : ''}`}
+      } ${scrolled ? 'shadow-lg' : ''} ${isOpen ? 'bg-black/90 backdrop-blur-md' : ''}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -185,7 +208,7 @@ export default function Navbar() {
               className={`inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none transition-all duration-300 ${textShadowClass}`}
               aria-expanded="false"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">Abrir menú principal</span>
               {isOpen ? (
                 <X className="block h-6 w-6" aria-hidden="true" />
               ) : (
@@ -199,13 +222,17 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="md:hidden"
+            className="md:hidden overflow-hidden"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
+            {...swipeHandlers}
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black/70 backdrop-blur-md">
+            <div 
+              ref={mobileMenuRef} 
+              className="px-2 pt-2 pb-3 space-y-1 sm:px-3"
+            >
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.name}
@@ -218,7 +245,7 @@ export default function Navbar() {
                     onClick={(e) => handleNavClick(e, item.href)}
                   >
                     <motion.div
-                      className={`block px-3 py-2 rounded-md text-base font-medium text-white hover:text-white transition-all duration-300 ${textShadowClass}`}
+                      className={`block px-3 py-2 rounded-md text-base font-medium text-white hover:text-white  transition-all duration-300 ${textShadowClass}`}
                       whileHover={{ scale: 1.05, x: 5 }}
                       whileTap={{ scale: 0.95 }}
                       transition={{ duration: 0.3 }}
@@ -232,7 +259,7 @@ export default function Navbar() {
                 </motion.div>
               ))}
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -20  }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: navItems.length * 0.1 }}
                 className="flex justify-center space-x-4 pt-2"
@@ -257,6 +284,14 @@ export default function Navbar() {
                 </SocialIcon>
               </motion.div>
             </div>
+            <motion.div
+              className="flex justify-center items-center py-2 text-white text-opacity-30"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <ChevronUp className="h-6 w-6 animate-bounce" />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

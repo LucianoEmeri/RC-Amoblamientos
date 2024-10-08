@@ -13,9 +13,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 const DynamicMap = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-80 bg-gray-200 flex items-center justify-center">
-      <Loader2 className="w-8 h-8 text-gray-500 animate-spin" />
-      <span className="sr-only">Cargando mapa...</span>
+    <div className="w-full h-64 sm:h-80 bg-black animate-pulse flex items-center justify-center">
+      <Loader2 className="w-8 h-8 text-white animate-spin" />
     </div>
   ),
 })
@@ -58,7 +57,7 @@ export default function LocationMap() {
   }
 
   return (
-    <div className="w-full h-80 relative z-10 rounded-lg overflow-hidden shadow-lg">
+    <div className="w-full h-64 sm:h-80 rounded-lg overflow-hidden shadow-lg">
       <DynamicMap center={center} zoom={9} className="w-full h-full">
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

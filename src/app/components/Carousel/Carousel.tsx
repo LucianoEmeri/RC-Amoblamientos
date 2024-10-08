@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 interface ICarouselImageProps {
   id: number
   image: string
-  href: string
   description1: string
   description2: string
   title: string
@@ -72,9 +71,9 @@ export default function Carousel({ images }: ICarouselProps) {
   return (
     <div
       id="default-carousel"
-      className="relative w-full hidden md:block"
+      className="relative w-full"
       data-carousel="slide">
-      <div className="relative h-[70vh] overflow-hidden">
+      <div className="relative h-[50vh] md:h-[70vh] overflow-hidden">
         {images.map((img, index) => (
           <div
             key={index}
@@ -89,12 +88,13 @@ export default function Carousel({ images }: ICarouselProps) {
               width={1920}
               height={1080}
               quality={100}
+              priority={index === 0}
             />
 
             <AnimatePresence mode="wait">
               {index === activeIndex && (
                 <motion.div
-                  className="absolute top-52 left-20 text-white p-6 rounded-lg"
+                  className="absolute inset-y-0 left-0 flex flex-col justify-center text-white p-6 md:p-12 w-full md:w-2/3 lg:w-1/2"
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
@@ -102,95 +102,89 @@ export default function Carousel({ images }: ICarouselProps) {
                   key={index}
                 >
                   <motion.p 
-                    className={`font-bold text-sm uppercase ${textShadowClass}`}
+                    className={`font-bold text-xs md:text-sm uppercase ${textShadowClass}`}
                     variants={itemVariants}
                   >
                     {img.title}
                   </motion.p>
                   <motion.p 
-                    className={`text-4xl font-bold ${textShadowClass}`}
+                    className={`text-2xl md:text-4xl font-bold mt-2 ${textShadowClass}`}
                     variants={itemVariants}
                   >
                     {img.description1}
                   </motion.p>
                   <motion.p 
-                    className={`text-3xl mb-12 leading-none ${textShadowClass}`}
+                    className={`text-xl md:text-3xl mt-2 leading-none ${textShadowClass}`}
                     variants={itemVariants}
                   >
                     {img.description2}
                   </motion.p>
-                  <motion.div variants={itemVariants}>
-                    {/* <a
-                      href={img.href}
-                      className="text-white bg-gradient-to-r from-black to-gray-800 hover:bg-gradient-to-l focus:outline-none py-4 px-8 font-bold uppercase text-sm rounded hover:bg-gray-200 hover:text-white inline-block transition duration-300 hover:scale-110">
-                      VER MÁS
-                    </a> */}
-                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
         ))}
       </div>
-      <div className="absolute z-40 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+      <div className="absolute z-40 flex justify-center space-x-2 -translate-x-1/2 bottom-5 left-1/2">
         {images.map((image, index) => (
           <button
             key={image.id}
             type="button"
-            className={`w-3 h-3 rounded-full bg-opacity-50 ${
+            className={`w-2 h-2 md:w-3 md:h-3 rounded-full bg-opacity-50 ${
               index === activeIndex ? 'bg-gray-500' : 'bg-gray-800'
             }`}
             aria-current={index === activeIndex}
             aria-label={`Slide ${index + 1}`}
             data-carousel-slide-to={index}
-            onClick={() => handleButtonClick(index)}></button>
+            onClick={() => handleButtonClick(index)}
+          ></button>
         ))}
       </div>
       <button
         type="button"
-        className="absolute top-0 start-0 z-40 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        className="absolute left-4 bottom-5 z-40 flex items-center justify-center w-10 h-10 focus:outline-none"
         data-carousel-prev
-        onClick={handlePrevClick}>
-        <span className="inline-flex items-center justify-center w-10 h-10 group-hover:bg-tertiary/50 group-focus:ring-0 group-focus:outline-none bg-transparent">
-          <svg
-            className="w-4 h-4 text-white rtl:rotate-180 opacity-80"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10">
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 1 1 5l4 4"
-            />
-          </svg>
-          <span className="sr-only">Previous</span>
-        </span>
+        onClick={handlePrevClick}
+        aria-label="Previous slide"
+      >
+        <svg
+          className="w-4 h-4 text-white rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5 1 1 5l4 4"
+          />
+        </svg>
       </button>
       <button
         type="button"
-        className="absolute top-0 end-0 z-40 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        className="absolute right-4 bottom-5 z-40 flex items-center justify-center w-10 h-10 focus:outline-none"
         data-carousel-next
-        onClick={handleNextClick}>
-        <span className="inline-flex items-center justify-center w-10 h-10 group-hover:bg-tertiary/50 group-focus:ring-0 group-focus:outline-none bg-transparent">
-          <svg
-            className="w-4 h-4 text-white rtl:rotate-180 opacity-80"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10">
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 9 4-4-4-4"
-            />
-          </svg>
-          <span className="sr-only">Next</span>
-        </span>
+        onClick={handleNextClick}
+        aria-label="Next slide"
+      >
+        <svg
+          className="w-4 h-4 text-white rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="m1 9 4-4-4-4"
+          />
+        </svg>
       </button>
     </div>
   )
