@@ -80,7 +80,7 @@ export default function Catalog() {
     <div className="relative min-h-screen">
       <div className="fixed inset-0 z-0">
         <Image
-          src="/assets/marquina.jpeg"
+          src="/assets/background1.jpeg"
           alt="Fondo de mármol Marquina"
           fill
           className="object-cover"
