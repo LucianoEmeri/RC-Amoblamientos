@@ -144,12 +144,10 @@ export default function About() {
               className="relative aspect-[3/4] sm:aspect-[4/5] md:aspect-[16/9] lg:aspect-auto lg:h-full"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70 z-10" />
-              <Image
+              <img
                 src={images[section].main}
                 alt={title}
-                layout="fill"
-                objectFit="cover"
-                className={`transition-all duration-300 transform ${isMobile ? '' : 'group-hover:scale-110'}`}
+                className={`w-full h-full object-cover transition-all duration-300 transform ${isMobile ? '' : 'group-hover:scale-110'}`}
               />
               <div className="absolute inset-x-0 bottom-0 z-20 p-4 sm:p-6">
                 <motion.div
@@ -205,12 +203,10 @@ export default function About() {
                     className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg"
                     onClick={(e) => handleImageClick(e, src)}
                   >
-                    <Image
+                    <img
                       src={src}
                       alt={`${title} imagen ${index + 1}`}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-transform duration-300 hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                     />
                   </motion.div>
                 ))}
@@ -257,13 +253,10 @@ export default function About() {
       </motion.div>
       <Modal isOpen={!!modalImage} onClose={() => setModalImage(null)}>
         {modalImage && (
-          <Image
+          <img
             src={modalImage}
             alt="Imagen en tamaño completo"
-            layout="responsive"
-            width={1200}
-            height={800}
-            className="rounded-lg"
+            className="w-full h-auto rounded-lg"
           />
         )}
       </Modal>
