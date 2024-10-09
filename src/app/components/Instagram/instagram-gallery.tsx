@@ -1,8 +1,8 @@
 'use client'
 
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { Instagram, Plus } from 'lucide-react'
+import Image from 'next/image'
 
 interface InstagramPost {
   id: string
@@ -71,11 +71,10 @@ export default function InstagramGallery() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {visiblePosts.map((post) => (
             <div key={post.id} className="relative aspect-square overflow-hidden shadow-lg">
-              <Image
+              <img
                 src={post.media_type === 'VIDEO' ? post.thumbnail_url || post.media_url : post.media_url}
                 alt={post.caption || `Instagram post ${post.id}`}
-                layout="fill"
-                objectFit="cover"
+                className="w-full h-full object-cover"
               />
               <a
                 href={post.permalink}
